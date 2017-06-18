@@ -1,47 +1,64 @@
 document.addEventListener('DOMContentLoaded', function() {
   
-  var checkPageButton = document.getElementById('checkPage');
-
-  checkPageButton.addEventListener('click', function() {
-    console.log('test');
+  function addHighlight() {
     const code = `
-      // var code_blocks = document.getElementsByTagName('code');
-      // console.log(code_blocks);
-      // 
-      // var code_highlighter = document.createElement("script");
-      // code_highlighter.src = "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js";
-      // 
-      // document.getElementsByTagName("head")[0].appendChild(code_highlighter);
-      
-      // <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/dracula.min.css">
       var head = document.getElementsByTagName('head')[0];
       
       var highlight_stylesheet = document.createElement("link");
       highlight_stylesheet.rel = "stylesheet"
       highlight_stylesheet.href = "//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/dracula.min.css"
-      console.log(highlight_stylesheet)
+      highlight_stylesheet.id = "highlight-css"
       
-      // <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
       var highlight_script = document.createElement("script");
       highlight_script.src = "//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"
-      console.log(highlight_script);
-      
-      var start_highlight = document.createElement('script');
-      start_highlight.innerHTML = "hljs.initHighlighting();"
-      console.log(start_highlight);
+      highlight_script.id = "highlight-js"
       
       head.appendChild(highlight_stylesheet);
       head.appendChild(highlight_script);
-      head.appendChild(start_highlight);
-      alert('hello');
       
-      // <script>hljs.initHighlightingOnLoad();</script>
+      highlight_script.onload = function() {
+        var start_highlight = document.createElement('script');
+        start_highlight.innerHTML = "hljs.initHighlighting();"
+        
+        document.body.appendChild(start_highlight);
+      };
     `;
+    
+    chrome.tabs.executeScript({code: code});
+  }
+  
+  function removeHighlight() {
+    const code = `
+      var highlight_stylesheet = document.getElementById('highlight-css');
+      var highlight_script = document.getElementById('highlight-js');
+      
+      if (highlight_stylesheet) { highlight_stylesheet.parentNode.removeChild(highlight_stylesheet); }
+      if (highlight_script) { highlight_script.parentNode.removeChild(highlight_script); }
+    `;
+    
+    chrome.tabs.executeScript({code: code});
+  }
+  
+  function startHighlight() {
+    const code = `
+      var start_highlight = document.createElement('script');
+      start_highlight.innerHTML = "hljs.initHighlighting();"
+      
+      document.body.appendChild(start_highlight);
+    `;
+    
+    chrome.tabs.executeScript({code: code});
+  }
+  
+  var checkPageButton = document.getElementById('checkPage');
+
+  checkPageButton.addEventListener('click', function() {
     
     console.log('start executing');
 
-    // Execute script on active tab
-    chrome.tabs.executeScript({code: code});
+    removeHighlight();
+    addHighlight();
+    // startHighlight();
     
     console.log('done executing');
   });
