@@ -39,28 +39,11 @@ document.addEventListener('DOMContentLoaded', function() {
     chrome.tabs.executeScript({code: code});
   }
   
-  function startHighlight() {
-    const code = `
-      var start_highlight = document.createElement('script');
-      start_highlight.innerHTML = "hljs.initHighlighting();"
-      
-      document.body.appendChild(start_highlight);
-    `;
-    
-    chrome.tabs.executeScript({code: code});
-  }
-  
-  var checkPageButton = document.getElementById('checkPage');
+  var highlightButton = document.getElementById('highlight-code');
 
-  checkPageButton.addEventListener('click', function() {
-    
-    console.log('start executing');
-
+  highlightButton.addEventListener('click', function() {
     removeHighlight();
     addHighlight();
-    // startHighlight();
-    
-    console.log('done executing');
   });
 
 });
