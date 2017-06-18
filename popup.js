@@ -1,5 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
   
+  const highlight_is_active = false;
+  
   function addHighlight() {
     const code = `
       var head = document.getElementsByTagName('head')[0];
@@ -40,10 +42,15 @@ document.addEventListener('DOMContentLoaded', function() {
   }
   
   var highlightButton = document.getElementById('highlight-code');
-
+  var clearHighlightButton = document.getElementById('clear-highlight');
+  
   highlightButton.addEventListener('click', function() {
     removeHighlight();
     addHighlight();
+  });
+  
+  clearHighlightButton.addEventListener('click', function() {
+    removeHighlight();
   });
 
 });
