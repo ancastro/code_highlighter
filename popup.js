@@ -1,14 +1,12 @@
 document.addEventListener('DOMContentLoaded', function() {
   
-  const highlight_is_active = false;
-  
   function addHighlight() {
     const code = `
       var head = document.getElementsByTagName('head')[0];
       
       var highlight_stylesheet = document.createElement("link");
       highlight_stylesheet.rel = "stylesheet"
-      highlight_stylesheet.href = "//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/dracula.min.css"
+      highlight_stylesheet.href = "//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/monokai-sublime.min.css"
       highlight_stylesheet.id = "highlight-css"
       
       var highlight_script = document.createElement("script");
